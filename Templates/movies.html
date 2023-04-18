@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Final Project</title>
+{% endblock %}
+
+
+{% block body %} 
+<header>
+    <div class = "headerposition">
+    <h1>MovieBuzz</h1>
+    <ul>
+        <li>Home</li>
+        <li>Movies</li>
+        <li>Reviewers</li>
+        <li>Profile</li>
+    </ul>
+    </div>
+</header>
+
+<body>
+    <div class = "positionmovies">
+        <p>Enter a movie name to find and leave reviews</p>
+        <form action = "">
+            <input type = "search" placeholder="Movie Search" class = "searchfunction text">
+        </form>
+    </div>
+
+    <div class = "positionimage">
+        <!-- <img src = "https://cdn.unifiedcommerce.com/content/product/large/0021081350211.jpg" width="1000" height="750"> -->
+        <!-- You have to go back and add this to your computer or something -->
+        <!-- When I tried using a relative link or bringing it into the folder, it wouldnt work -->
+    </div>
+
+</body>
+
+<footer>
+
+</footer>
+{% endblock %}
