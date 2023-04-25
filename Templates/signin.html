@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Final Project</title>
+{% endblock %}
+
+
+{% block body %} 
+
+<body>
+
+    <div class = "signupheader">
+        <h1>Sign In!</h1>
+        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Qui obcaecati incidunt pariatur quod. Molestiae, aliquam. Consectetur, molestias voluptas, totam pariatur repellat et eum, dignissimos culpa ducimus sit ipsum eos dolorum.</p>
+    </div>
+
+    <form class = "signupform" method="post" action = "/loginuser">
+        <label for = "users-email">Email:</label><br>
+        <input type ="email" id = "users-email" name = "users-email" placeholder="Enter your email"><br>
+        <label for = "users-password">Password:</label><br>
+        <input type = "password" id = "users-password" name = "users-password" placeholder = "Enter your password"><br>
+        <input type = "submit" value = "Sign up!" class = "submitbutton">
+    </form>
+
+</body>
+
+<footer>
+
+</footer>
+{% endblock %}

@@ -7,9 +7,6 @@
 
 
 {% block body %} 
-<header>
-    <h1>MovieBuzz</h1>
-</header>
 
 <body>
 
@@ -25,9 +22,16 @@
         
     </div>
     <div class = "loginpage-buttons">
-        <form action = "" class = "formbuttons">
-            <input type = "submit" value="Create Account" class = "loginbuttons accountbutton big">
-            <input type = "submit" value="Sign Up" class = "loginbuttons accountbutton small">
+        <form action = "/login/signup/createaccount" class = "formbuttons" method = "get">
+            <input type = "submit" value="Create Account" class = "loginbuttons accountbutton big" name = "signup">
+            <!-- <input type = "submit" value="Sign Up" class = "loginbuttons accountbutton small" name = "creataccount"> -->
+        </form>
+    </div>
+
+    <div class = "loginpage-buttons">
+        <form action = "/login/signup/signin" class = "formbuttons" method = "get">
+            <!-- <input type = "submit" value="Create Account" class = "loginbuttons accountbutton big" name = "signup"> -->
+            <input type = "submit" value="Sign In" class = "loginbuttons accountbutton small" name = "creataccount">
         </form>
     </div>
 

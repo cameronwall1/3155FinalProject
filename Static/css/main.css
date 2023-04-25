@@ -1,6 +1,7 @@
 * {
     margin:0;
     padding: 0;
+    font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 header {
@@ -46,6 +47,20 @@ body {
 .loginpageheader h2 {
     padding-bottom: 5px;
     font-weight:100;
+}
+
+header a {
+    color: black;
+    text-decoration: none;
+}
+
+header a:active {
+    color: black;
+
+}
+
+header a:hover {
+    text-decoration: underline;
 }
 
 header .headerposition {
@@ -199,7 +214,7 @@ body {
 }
 
 .formbuttons {
-    margin-top: 5%;
+    /* margin-top: 5%;   This just got adjusted, if necessary change back */
     /* border: 5px solid red; */
     display: flex;
     flex-direction: column;
@@ -231,7 +246,13 @@ body {
 .loginpage-buttons .accountbutton.big {
     width: 350px;
     font-size: 30px;
-    margin-bottom: 2%;
+    /* margin-bottom: -100px; */
+    /* border: 5px solid black; */
+}
+
+.loginpage-buttons .accountbutton.small {
+    /* border: 5px solid black; */
+    margin-top:-200px;
 }
 
 .reviewersTitle {
@@ -271,6 +292,11 @@ body {
     box-shadow: 4px 4px black;
 }
 
+.popularreviewers .reviewer:nth-child(4) {
+    margin-bottom: 20%;
+    /* border: 20px solid black; */
+}
+
 .popularreviewers .reviewer h2 {
     margin-top: 33%;
 }
@@ -278,6 +304,73 @@ body {
 .popularreviewers .reviewer h2,p {
     text-align: center;
 }
+
+.signupheader {
+    margin-top: 5%;
+    /* border: 2px solid black; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.signupheader h1 {
+    font-size: 50px;
+    letter-spacing: 2px;
+    margin-bottom: 1.5vh;
+    /* text-decoration: underline; */
+    /* text-underline-offset: 5px; */
+}
+
+.signupheader p {
+    width: 850px;
+}
+
+.signupform {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 3%;
+    border: 2px solid black;
+    padding: 25px;
+    width: 75%;
+    box-sizing: border-box;
+    width: fit-content;
+}
+
+.signupform input {
+    height: 50px;
+    min-width: 75vh;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 15px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    padding-left: 15px;
+    border: 2px solid black;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.signupform label {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.signupform input[type=submit] {
+    width: 50%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 1%;
+  }
+  
+.signupform input[type=submit]:hover {
+    background-color: #45a049;
+  }
+
 
 footer {
     margin-left: auto;

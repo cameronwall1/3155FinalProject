@@ -6,7 +6,7 @@
 
 
 {% block body %} 
-<header>
+<!-- <header>
     <div class = "headerposition">
     <h1>MovieBuzz</h1>
     <ul>
@@ -16,7 +16,7 @@
         <li>Profile</li>
     </ul>
     </div>
-</header>
+</header> -->
 
 <body>
     <div class = "positionmovies">
@@ -31,6 +31,12 @@
         <!-- You have to go back and add this to your computer or something -->
         <!-- When I tried using a relative link or bringing it into the folder, it wouldnt work -->
     </div>
+
+    {{content}}
+
+    {% if content == True %}
+    <p>Congratulations, you have successfully logged in!</p>
+    {% endif %}
 
 </body>
 

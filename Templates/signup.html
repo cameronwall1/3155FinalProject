@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Final Project</title>
+<style>
+
+    .Error {
+        color: red;
+        font-size: 25px;
+        text-align: center;
+        margin-top: 2%;
+    }
+
+    .Success, .usersinformation {
+        text-align: center;
+        font-size: 25px;
+    }   
+
+    .Success {
+        margin-top: 2%;
+        color: green;
+    }
+</style>
+{% endblock %}
+
+
+{% block body %} 
+
+<body>
+
+    <div class = "signupheader">
+        <h1>Create Account!</h1>
+        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Qui obcaecati incidunt pariatur quod. Molestiae, aliquam. Consectetur, molestias voluptas, totam pariatur repellat et eum, dignissimos culpa ducimus sit ipsum eos dolorum.</p>
+    </div>
+
+    <form class = "signupform" method="POST">
+        <label for="users-name">First Name:</label><br>
+        <input type="text" id = "users-name" name = "users-name" placeholder="Enter your first name"><br>
+        <label for = "users-email">Email:</label><br>
+        <input type ="email" id = "users-email" name = "users-email" placeholder="Enter your email"><br>
+        <label for = "users-password">Password:</label><br>
+        <input type = "password" id = "users-password" name = "users-password" placeholder = "Enter your password"><br>
+        <input type = "submit" value = "Sign up!" class = "submitbutton">
+    </form>
+
+    {% if booleanValue == True %}
+    <p class = "Success">Welcome back, {{usersfirstname}}</p>
+    <!-- <p class = "usersinformation">{{usersemail}}</p> -->
+
+    {% else %}
+    <p class = "Error">Information entered was not valid, please try again.</p>
+
+    {% endif %}
+</body>
+
+<footer>
+
+</footer>
+{% endblock %}
