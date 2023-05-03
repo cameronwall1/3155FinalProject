@@ -2,6 +2,52 @@
 
 {% block head %}
 <title>Final Project</title>
+<style>
+    .logintrue {
+        color: green;
+        font-size: 25px;
+        margin-top: 50px;
+    }
+
+    .foundmovie {
+        color: green;
+        font-size: 25px;
+        /* margin-top: 50px; */
+    }
+
+    #customers {
+      font-family: Arial, Helvetica, sans-serif;
+      border-collapse: collapse;
+      width: 75%;
+      margin-left: auto;
+      margin-right: auto;
+      max-width: max-content;
+    }
+    
+    #customers td, #customers th {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center;
+      max-width: 250px;
+      min-width: 200px;
+
+    }
+    
+    #customers tr:nth-child(even){background-color: #f2f2f2;}
+    
+    #customers tr:hover {background-color: #ddd;}
+    
+    #customers th {
+      padding-top: 12px;
+      padding-bottom: 12px;
+      background-color: #04AA6D;
+      color: white;
+      text-align: center;
+      max-width: 250px;
+      min-width: 200px;
+    }
+
+</style>
 {% endblock %}
 
 
@@ -21,22 +67,80 @@
 <body>
     <div class = "positionmovies">
         <p>Enter a movie name to find and leave reviews</p>
-        <form action = "">
-            <input type = "search" placeholder="Movie Search" class = "searchfunction text">
+        <form action = "/movies/search" method="post">
+            <input type = "search" placeholder="Movie Search" class = "searchfunction text" name = "searchfunction">
         </form>
     </div>
 
-    <div class = "positionimage">
-        <!-- <img src = "https://cdn.unifiedcommerce.com/content/product/large/0021081350211.jpg" width="1000" height="750"> -->
-        <!-- You have to go back and add this to your computer or something -->
-        <!-- When I tried using a relative link or bringing it into the folder, it wouldnt work -->
-    </div>
+    <table id="customers">
+        <tr>
+          <th>Movie Title</th>
+          <th>Description</th>
+          <th>Rating</th>
+          <th>Reviewer</th>
+        </tr>
 
-    {{content}}
+        {% for value in values %} 
+        <tr>
+          <td>{{value.movietitle}}</td>
+          <td>{{value.moviedescription}}</td>
+          <td>{{value.movierating}}/5</td>
 
-    {% if content == True %}
-    <p>Congratulations, you have successfully logged in!</p>
+            {% for user in allusers %}
+            {% if user.id == value.user_id %}
+
+            <td>{{user.firstname}}
+
+            {% if user1.id == value.user_id %}
+            <br><a href = "/delete/{{value.id}}">Delete</a>
+            {% endif %}
+
+            </td>
+
+            {% endif %}
+            {% endfor %}
+
+
+        </tr>
+        {% endfor %}
+    </table>
+
+    <!-- {% if content == 'True' %}
+    <p class = "logintrue">Congratulations, you have successfully logged in!</p>
+    {% endif %} -->
+
+    <!-- {% if values|length > 0 %}
+    {% for item in values %}
+    {% if user1.id == item.user_id %}
+
+    <p>Movie title: {{item.movietitle}} <a href = "/delete/{{item.id}}">Delete</a></p>
+    {% else %}
+
+
+
+
+    
+    <p>Movie title: {{item.movietitle}}</p>
     {% endif %}
+    {% endfor %}
+    {% else %}
+    {% endif %} -->
+
+    {% if finalmovie == '' %}
+    <p style="color: red;"> Please Enter a Valid Movie Title</p>
+    {% else %}
+    {% for i in values %}
+        {% if finalmovie == i.movietitle %}
+            <p class = "foundmovie">Found Movie - Movie Name: {{i.movietitle}}</p>
+        {% endif %}
+    {% endfor %}
+    {% endif %}
+
+    <!-- <div class = "positionimage">
+       
+    </div> -->
+
+
 
 </body>
 
@@ -44,3 +148,4 @@
 
 </footer>
 {% endblock %}
+

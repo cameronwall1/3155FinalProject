@@ -2,6 +2,17 @@
 
 {% block head %}
 <title>Final Project</title>
+<style>
+    select {
+        width: 25%;
+        margin-top: 10px;
+        margin-left: 7px;
+    }
+
+    .ratingalignment {
+        margin-left: 5px;
+    }
+</style>
 
 {% endblock %}
 
@@ -10,6 +21,26 @@
 
 <body>
 
+    {% if user1.is_authenticated %}
+    <form class = "signupform" method="post" action = "/addmovies">
+        <label for = "moviesname">Movie Name:</label><br>
+        <input type ="text" id = "moviename" name = "moviename" placeholder="Enter the movies title"><br>
+
+        <label for = "description">Description:</label><br>
+        <input type ="text" id = "description" name = "description" placeholder = "Enter a short description"><br>
+
+        <label for = "rating" class = "ratingalignment">Select a rating for this movie:</label><br>
+        <select name = "rating" id = "rating" name = "rating">
+            <option value="1">1/5</option>
+            <option value="2">2/5</option>
+            <option value="3">3/5</option>
+            <option value="4">4/5</option>
+            <option value="5">5/5</option>
+        </select>
+
+        <input type = "submit" value = "Submit!" class = "submitbutton">
+    </form>
+    {% else %}
     <div class = "loginpageheader">
         <h2>Welcome to</h2>
         <h1>MovieBuzz</h1>
@@ -34,6 +65,7 @@
             <input type = "submit" value="Sign In" class = "loginbuttons accountbutton small" name = "creataccount">
         </form>
     </div>
+    {% endif %}
 
 </body>
 

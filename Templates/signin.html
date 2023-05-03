@@ -2,6 +2,13 @@
 
 {% block head %}
 <title>Final Project</title>
+<style>
+    .incorrectpassword {
+        color: red;
+        margin-top: 10px;
+        font-size: 25px;
+    }
+</style>
 {% endblock %}
 
 
@@ -21,6 +28,12 @@
         <input type = "password" id = "users-password" name = "users-password" placeholder = "Enter your password"><br>
         <input type = "submit" value = "Sign up!" class = "submitbutton">
     </form>
+    
+    {% if content != '' %}
+
+    <p class = "incorrectpassword">{{content}}</p>
+
+    {% endif %}
 
 </body>
 

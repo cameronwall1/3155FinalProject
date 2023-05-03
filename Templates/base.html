@@ -12,10 +12,15 @@
         <div class = "headerposition">
         <h1>MovieBuzz</h1>
         <ul>
-            <li><a href="/">Home</a></li>
+            <!-- <li><a href="/">Home</a></li> -->
+            {% if user1.is_authenticated %}
             <li><a href = "/movies">Movies</a></li>
             <li><a href = "/reviewers">Reviewers</a></li>
-            <li><a href = "/login">Profile</a></li> 
+            <li><a href = "/login">Add Review</a></li> 
+            <li><a href = "/logout">Logout</a></li> 
+            {% else %}
+            <li><a href = "/login"><img src="/static/iconimageforSoftware.png" height="40" width="40"></a></li> 
+            {% endif %}
             <!-- Make sure to change this link. Create the page -->
         </ul>
         </div>
