@@ -2,6 +2,8 @@ from flask import Flask, render_template, url_for, request, flash, redirect, url
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_required, login_user, logout_user, current_user, LoginManager
 from werkzeug.security import generate_password_hash, check_password_hash
+import csv
+import re
 
 # Tried adding the flask login, didnt work. If you see errors, start by removing that first and then going from there
 
@@ -14,6 +16,21 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'thisismysecretkey!'
 app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
 db.init_app(app)
+
+lineCount = 0
+csv_file = open("rotten_tomatoes_movies.csv", 'r')
+csv_reader = csv.reader(csv_file, delimiter=',')
+lines = []
+
+line = ''
+for row in csv_file:
+    lines.append(line)
+    line = row
+    #print("Line " + str(lineCount) + " found!")
+    lineCount += 1
+lines.pop(0)
+
+csv_file.close()
 
 
 class Movie (db.Model):
@@ -58,7 +75,78 @@ def create_tables():
 
 
 
+# arg@ row: A raw line from the csv file
+def getMovieTitleFromRow(row):
+    columns = re.split(',', row)
+    title = columns[1]
+    return title
 
+# arg@ row: A raw line from the csv file
+def getMovieDescFromRow(row):
+    columns = re.split(',"', row)
+    desc = columns[1]
+    desc = '"' + desc
+    return desc
+
+# arg@ row: A raw line from the csv file
+def getTomatoMovieRatingFromRow(row):
+    columns = re.split(',', row)
+    rating = columns[len(columns) - 1 - 7]
+    return rating
+
+# arg@ row: A raw line from the csv file
+def getAudienceMovieRatingFromRow(row):
+    columns = re.split(',', row)
+    rating = columns[len(columns) - 1 - 4]
+    return rating
+
+# arg@ lines: An array that contains raw lines from the csv file
+# arg@ targetTitle: the relative title that the program should look for
+def getMovieDescFromTitle(lines, targetTitle):
+    desc = None
+    currentTitle = ''
+
+    for row in range(len(lines)):
+        row += 1
+        currentTitle = getMovieTitleFromRow(lines[row].lower())
+
+        if (currentTitle.find((targetTitle.lower()))):
+            desc = getMovieDescFromRow(lines[row])
+            break
+    
+    return desc
+
+# arg@ lines: An array that contains raw lines from the csv file
+# arg@ targetTitle: the relative title that the program should look for
+def getAudRatingFromTitle(lines, targetTitle):
+    rating = None
+    currentTitle = ''
+
+    for row in range(len(lines)):
+        row += 1
+        currentTitle = getMovieTitleFromRow(lines[row].lower())
+
+        if (currentTitle.find((targetTitle.lower()))):
+            rating = getAudienceMovieRatingFromRow(lines[row])
+            break
+    
+    return rating
+
+# arg@ lines: An array that contains raw lines from the csv file
+# arg@ targetTitle: the relative title that the program should look for
+def getTomRatingFromTitle(lines, targetTitle):
+    rating = None
+    currentTitle = ''
+
+    for row in range(len(lines)):
+        row += 1
+        currentTitle = getMovieTitleFromRow(lines[row]).lower()
+
+        if (currentTitle.find((targetTitle.lower()))):
+            rating = getTomatoMovieRatingFromRow(lines[row])
+            break
+    
+    return rating
 
 @app.route('/', methods = ['GET', 'POST'])
 def index ():
@@ -168,14 +256,14 @@ def deletemovie (id):
 
 @app.route('/movies/search', methods = ['POST','GET'])
 def search_movies():
-    moviename = request.form.get('searchfunction')
+    moviename = request.form.get('searchfunction').lower()
     tempvalues = Movie.query.all() 
     finalmovie = ''
     print (moviename)
 
     for i in tempvalues:
-        if i.movietitle == moviename:
-            finalmovie = i.movietitle
+        if i.movietitle.lower() == moviename.lower():
+            finalmovie = i.movietitle.lower()
 
     return render_template('movies.html', search_active=True, values = Movie.query.all(), name = moviename, finalmovie = finalmovie, user1 = current_user, allusers = User.query.all())
 
