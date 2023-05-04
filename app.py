@@ -118,6 +118,37 @@ def getMovieDescFromTitle(lines, targetTitle):
 
 # arg@ lines: An array that contains raw lines from the csv file
 # arg@ targetTitle: the relative title that the program should look for
+def getMovieTitleFromTitle(lines, targetTitle):
+    title = None
+    currentTitle = ''
+
+    for row in range(len(lines)):
+        row += 1
+        currentTitle = getMovieTitleFromRow(lines[row].lower())
+
+        if (currentTitle.find((targetTitle.lower()))):
+            title = getMovieTitleFromRow(lines[row])
+            break
+    
+    return title
+
+# arg@ lines: An array that contains raw lines from the csv file
+# arg@ targetTitle: the relative title that the program should look for
+def getMovieTitlesFromTitle(lines, targetTitle):
+    titles = None
+    currentTitle = ''
+
+    for row in range(len(lines)):
+        row += 1
+        currentTitle = getMovieTitleFromRow(lines[row].lower())
+
+        if (currentTitle.find((targetTitle.lower()))):
+            titles.append(getMovieTitleFromRow(lines[row]))
+    
+    return titles
+
+# arg@ lines: An array that contains raw lines from the csv file
+# arg@ targetTitle: the relative title that the program should look for
 def getAudRatingFromTitle(lines, targetTitle):
     rating = None
     currentTitle = ''
@@ -264,6 +295,11 @@ def search_movies():
     for i in tempvalues:
         if i.movietitle.lower() == moviename.lower():
             finalmovie = i.movietitle.lower()
+
+    if finalmovie == '':
+        tomatoTitles = getMovieTitlesFromTitle(lines, moviename)
+        if tomatoTitles != None:
+            finalmovie.append(tomatoTitles)
 
     return render_template('movies.html', search_active=True, values = Movie.query.all(), name = moviename, finalmovie = finalmovie, user1 = current_user, allusers = User.query.all())
 
