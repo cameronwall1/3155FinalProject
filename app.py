@@ -107,43 +107,27 @@ def getMovieDescFromTitle(lines, targetTitle):
     currentTitle = ''
 
     for row in range(len(lines)):
-        row += 1
-        currentTitle = getMovieTitleFromRow(lines[row].lower())
+        if (row > 0):
+            currentTitle = getMovieTitleFromRow(lines[row]).lower()
 
-        if (currentTitle.find((targetTitle.lower()))):
-            desc = getMovieDescFromRow(lines[row])
-            break
+            if (currentTitle.find((targetTitle).lower()) != -1):
+                desc = getMovieDescFromRow(lines[row])
+                break
     
     return desc
-
-# arg@ lines: An array that contains raw lines from the csv file
-# arg@ targetTitle: the relative title that the program should look for
-def getMovieTitleFromTitle(lines, targetTitle):
-    title = None
-    currentTitle = ''
-
-    for row in range(len(lines)):
-        row += 1
-        currentTitle = getMovieTitleFromRow(lines[row].lower())
-
-        if (currentTitle.find((targetTitle.lower()))):
-            title = getMovieTitleFromRow(lines[row])
-            break
     
-    return title
-
 # arg@ lines: An array that contains raw lines from the csv file
 # arg@ targetTitle: the relative title that the program should look for
 def getMovieTitlesFromTitle(lines, targetTitle):
-    titles = None
+    titles = []
     currentTitle = ''
 
     for row in range(len(lines)):
-        row += 1
-        currentTitle = getMovieTitleFromRow(lines[row].lower())
+        if (row > 0):
+            currentTitle = getMovieTitleFromRow(lines[row]).lower()
 
-        if (currentTitle.find((targetTitle.lower()))):
-            titles.append(getMovieTitleFromRow(lines[row]))
+            if (currentTitle.find((targetTitle).lower()) != -1):
+                titles.append(currentTitle.upper())
     
     return titles
 
@@ -154,12 +138,12 @@ def getAudRatingFromTitle(lines, targetTitle):
     currentTitle = ''
 
     for row in range(len(lines)):
-        row += 1
-        currentTitle = getMovieTitleFromRow(lines[row].lower())
+        if (row > 0):
+            currentTitle = getMovieTitleFromRow(lines[row]).lower()
 
-        if (currentTitle.find((targetTitle.lower()))):
-            rating = getAudienceMovieRatingFromRow(lines[row])
-            break
+            if (currentTitle.find((targetTitle).lower()) != -1):
+                rating = getAudienceMovieRatingFromRow(lines[row])
+                break
     
     return rating
 
@@ -170,12 +154,12 @@ def getTomRatingFromTitle(lines, targetTitle):
     currentTitle = ''
 
     for row in range(len(lines)):
-        row += 1
-        currentTitle = getMovieTitleFromRow(lines[row]).lower()
+        if (row > 0):
+            currentTitle = getMovieTitleFromRow(lines[row]).lower()
 
-        if (currentTitle.find((targetTitle.lower()))):
-            rating = getTomatoMovieRatingFromRow(lines[row])
-            break
+            if (currentTitle.find((targetTitle).lower()) != -1):
+                rating = getTomatoMovieRatingFromRow(lines[row])
+                break
     
     return rating
 
