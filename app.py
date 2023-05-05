@@ -274,6 +274,7 @@ def search_movies():
     moviename = request.form.get('searchfunction').lower()
     tempvalues = Movie.query.all() 
     finalmovie = ''
+    titles = []
     print (moviename)
 
     for i in tempvalues:
@@ -283,8 +284,9 @@ def search_movies():
     if finalmovie == '':
         tomatoTitles = getMovieTitlesFromTitle(lines, moviename)
         if tomatoTitles != None:
-            finalmovie.append(tomatoTitles)
-
+            titles.append(tomatoTitles)
+        finalmovie = ''.join(titles[0])
+        
     return render_template('movies.html', search_active=True, values = Movie.query.all(), name = moviename, finalmovie = finalmovie, user1 = current_user, allusers = User.query.all())
 
 if __name__ == "__main__":
@@ -294,3 +296,4 @@ if __name__ == "__main__":
 # Users: cam@gmail.com 1234567
 # Users: jordan@gmail.com  
 # Users: calliewall@gmail.com
+# User: kylamoore122@gmail.com Pass: Password123
