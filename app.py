@@ -274,19 +274,29 @@ def search_movies():
     moviename = request.form.get('searchfunction').lower()
     tempvalues = Movie.query.all() 
     finalmovie = ''
-    titles = []
-    print (moviename)
+    tomatoTitles = []
+    usersid = current_user
 
     for i in tempvalues:
         if i.movietitle.lower() == moviename.lower():
-            finalmovie = i.movietitle.lower()
+            finalmovie = i.movietitle
 
     if finalmovie == '':
         tomatoTitles = getMovieTitlesFromTitle(lines, moviename)
         if tomatoTitles != None:
-            titles.append(tomatoTitles)
-        finalmovie = ''.join(titles[0])
-        
+            new_title = ''.join(tomatoTitles[0])
+            new_desc = getMovieDescFromTitle(lines, moviename)
+            new_rating = str(int(int(getAudRatingFromTitle(lines, moviename)) / 100 * 5))
+            #audience_pass = 'MovieBuzz3155'
+            #audience = User('audience@moviebuzz.com', generate_password_hash(audience_pass, method = 'sha256'), 'Audience') #email, password, firstname
+            new_movie = Movie(movietitle = new_title, moviedescription = new_desc, movierating = new_rating, user_id = usersid.id)
+            db.session.add(new_movie)
+            db.session.commit()
+    
+    for i in tempvalues:
+        if i.movietitle.lower() == moviename.lower():
+            finalmovie = i.movietitle
+
     return render_template('movies.html', search_active=True, values = Movie.query.all(), name = moviename, finalmovie = finalmovie, user1 = current_user, allusers = User.query.all())
 
 if __name__ == "__main__":
