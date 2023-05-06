@@ -163,6 +163,9 @@ def getTomRatingFromTitle(lines, targetTitle):
     
     return rating
 
+def matches(text, keywords):
+    return sum(word in text.lower() for word in keywords)
+
 @app.route('/', methods = ['GET', 'POST'])
 def index ():
     return render_template("login.html", user1 = current_user)
@@ -284,7 +287,16 @@ def search_movies():
     if finalmovie == '':
         tomatoTitles = getMovieTitlesFromTitle(lines, moviename)
         if tomatoTitles != None:
-            new_title = ''.join(tomatoTitles[0])
+            matching = 0 # The most number of matches
+            matchingTitle = tomatoTitles[0] # The title with the most matches
+            for title in tomatoTitles:
+                numMatches = matches(title.lower(), moviename.lower())
+                if (numMatches > matching):
+                    matching = numMatches
+                    matchingTitle = title
+
+            new_title = ''.join(matchingTitle)
+            #new_title = ''.join(tomatoTitles[0])
             new_desc = getMovieDescFromTitle(lines, moviename)
             new_rating = str(int(int(getAudRatingFromTitle(lines, moviename)) / 100 * 5))
             #audience_pass = 'MovieBuzz3155'
