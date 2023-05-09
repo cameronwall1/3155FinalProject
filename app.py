@@ -107,43 +107,27 @@ def getMovieDescFromTitle(lines, targetTitle):
     currentTitle = ''
 
     for row in range(len(lines)):
-        row += 1
-        currentTitle = getMovieTitleFromRow(lines[row].lower())
+        if (row > 0):
+            currentTitle = getMovieTitleFromRow(lines[row]).lower()
 
-        if (currentTitle.find((targetTitle.lower()))):
-            desc = getMovieDescFromRow(lines[row])
-            break
+            if (currentTitle.find((targetTitle).lower()) != -1):
+                desc = getMovieDescFromRow(lines[row])
+                break
     
     return desc
-
-# arg@ lines: An array that contains raw lines from the csv file
-# arg@ targetTitle: the relative title that the program should look for
-def getMovieTitleFromTitle(lines, targetTitle):
-    title = None
-    currentTitle = ''
-
-    for row in range(len(lines)):
-        row += 1
-        currentTitle = getMovieTitleFromRow(lines[row].lower())
-
-        if (currentTitle.find((targetTitle.lower()))):
-            title = getMovieTitleFromRow(lines[row])
-            break
     
-    return title
-
 # arg@ lines: An array that contains raw lines from the csv file
 # arg@ targetTitle: the relative title that the program should look for
 def getMovieTitlesFromTitle(lines, targetTitle):
-    titles = None
+    titles = []
     currentTitle = ''
 
     for row in range(len(lines)):
-        row += 1
-        currentTitle = getMovieTitleFromRow(lines[row].lower())
+        if (row > 0):
+            currentTitle = getMovieTitleFromRow(lines[row]).lower()
 
-        if (currentTitle.find((targetTitle.lower()))):
-            titles.append(getMovieTitleFromRow(lines[row]))
+            if (currentTitle.find((targetTitle).lower()) != -1):
+                titles.append(currentTitle.upper())
     
     return titles
 
@@ -154,12 +138,12 @@ def getAudRatingFromTitle(lines, targetTitle):
     currentTitle = ''
 
     for row in range(len(lines)):
-        row += 1
-        currentTitle = getMovieTitleFromRow(lines[row].lower())
+        if (row > 0):
+            currentTitle = getMovieTitleFromRow(lines[row]).lower()
 
-        if (currentTitle.find((targetTitle.lower()))):
-            rating = getAudienceMovieRatingFromRow(lines[row])
-            break
+            if (currentTitle.find((targetTitle).lower()) != -1):
+                rating = getAudienceMovieRatingFromRow(lines[row])
+                break
     
     return rating
 
@@ -170,14 +154,17 @@ def getTomRatingFromTitle(lines, targetTitle):
     currentTitle = ''
 
     for row in range(len(lines)):
-        row += 1
-        currentTitle = getMovieTitleFromRow(lines[row]).lower()
+        if (row > 0):
+            currentTitle = getMovieTitleFromRow(lines[row]).lower()
 
-        if (currentTitle.find((targetTitle.lower()))):
-            rating = getTomatoMovieRatingFromRow(lines[row])
-            break
+            if (currentTitle.find((targetTitle).lower()) != -1):
+                rating = getTomatoMovieRatingFromRow(lines[row])
+                break
     
     return rating
+
+def matches(text, keywords):
+    return sum(word in text.lower() for word in keywords)
 
 @app.route('/', methods = ['GET', 'POST'])
 def index ():
@@ -290,16 +277,37 @@ def search_movies():
     moviename = request.form.get('searchfunction').lower()
     tempvalues = Movie.query.all() 
     finalmovie = ''
-    print (moviename)
+    tomatoTitles = []
+    usersid = current_user
 
     for i in tempvalues:
         if i.movietitle.lower() == moviename.lower():
-            finalmovie = i.movietitle.lower()
+            finalmovie = i.movietitle
 
     if finalmovie == '':
         tomatoTitles = getMovieTitlesFromTitle(lines, moviename)
         if tomatoTitles != None:
-            finalmovie.append(tomatoTitles)
+            matching = 0 # The most number of matches
+            matchingTitle = tomatoTitles[0] # The title with the most matches
+            for title in tomatoTitles:
+                numMatches = matches(title.lower(), moviename.lower())
+                if (numMatches > matching):
+                    matching = numMatches
+                    matchingTitle = title
+
+            new_title = ''.join(matchingTitle)
+            #new_title = ''.join(tomatoTitles[0])
+            new_desc = getMovieDescFromTitle(lines, moviename)
+            new_rating = str(int(int(getAudRatingFromTitle(lines, moviename)) / 100 * 5))
+            #audience_pass = 'MovieBuzz3155'
+            #audience = User('audience@moviebuzz.com', generate_password_hash(audience_pass, method = 'sha256'), 'Audience') #email, password, firstname
+            new_movie = Movie(movietitle = new_title, moviedescription = new_desc, movierating = new_rating, user_id = usersid.id)
+            db.session.add(new_movie)
+            db.session.commit()
+    
+    for i in tempvalues:
+        if i.movietitle.lower() == moviename.lower():
+            finalmovie = i.movietitle
 
     return render_template('movies.html', search_active=True, values = Movie.query.all(), name = moviename, finalmovie = finalmovie, user1 = current_user, allusers = User.query.all())
 
@@ -310,3 +318,4 @@ if __name__ == "__main__":
 # Users: cam@gmail.com 1234567
 # Users: jordan@gmail.com  
 # Users: calliewall@gmail.com
+# User: kylamoore122@gmail.com Pass: Password123
